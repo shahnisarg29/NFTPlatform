@@ -7,10 +7,10 @@ if (! empty($_SESSION["userId"])) {
     require_once __DIR__ . './../class/Member.php';
     $member = new Member();
     $memberResult = $member->getMemberById($_SESSION["userId"]);
-    if(!empty($memberResult[0]["display_name"])) {
-        $displayName = ucwords($memberResult[0]["display_name"]);
+    if(!empty($memberResult[0]["first_name"])) {
+        $displayName = ucwords($memberResult[0]["first_name"]);
     } else {
-        $displayName = $memberResult[0]["user_name"];
+        $displayName = $memberResult[0]["email"];
     }
 }
 ?>
@@ -50,7 +50,7 @@ a.logout-button {
         <div class="dashboard">
             <div class="member-dashboard">
             <p>Welcome <b><?php echo $displayName; ?>!</b></p>
-            <p><?php echo $memberResult[0]["about"]; ?></p>
+            <p><?php echo $memberResult[0]["client_id"]; ?></p>
             
             <p><img src="./view/images/photo.jpeg" class="profile-photo" /></p>
             <p>You have successfully logged in!</p>

@@ -2,6 +2,8 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>User Login</title>
+
+<!-- CSS only -->
 <link href="./view/css/form.css" rel="stylesheet" type="text/css" />
 <style>
 body {
@@ -29,7 +31,7 @@ body {
                 ?>
                 <div class="field-column">
 					<div>
-						<label for="username">Username</label><span id="user_info"
+						<label for="username">Email</label><span id="user_info"
 							class="error-info"></span>
 					</div>
 					<div>
@@ -46,26 +48,23 @@ body {
 						<input name="password" id="password" type="password"
 							class="demo-input-box" placeholder="Enter Password">
 					</div>
+					<br>
+					<div class>
+						<input name="manager" id="manager" type="checkbox">
+						<label for="manager">Manager</label>
+					</div>
 				</div>
 				<div class=field-column>
 					<div>
 						<input type="submit" name="login" value="Login" class="btnLogin"></span>
 					</div>
 				</div>
-				<div class="form-nav-row">
+				<!-- <div class="form-nav-row">
 					<a href="#" class="form-link">Forgot password?</a>
-				</div>
+				</div> -->
 				<div class="login-row form-nav-row">
 					<p>New user?</p>
-					<a href="#" class="btn form-link">Signup Now</a>
-				</div>
-				<div class="login-row form-nav-row">
-					<p>May also signup with</p>
-					<a href="#"><img src="view/images/icon-facebook.png"
-						class="signup-icon" /></a><a href="#"><img
-						src="view/images/icon-twitter.png" class="signup-icon" /></a><a
-						href="#"><img src="view/images/icon-linkedin.png"
-						class="signup-icon" /></a>
+					<a href="./view/signup.php" class="btn form-link">Signup Now</a>
 				</div>
 			</div>
 		</form>

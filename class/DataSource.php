@@ -18,7 +18,7 @@ class DataSource
 
     const PASSWORD = '';
 
-    const DATABASENAME = 'blog_eg';
+    const DATABASENAME = 'nft';
 
     private $conn;
 
