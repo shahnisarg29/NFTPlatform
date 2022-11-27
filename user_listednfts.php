@@ -8,6 +8,7 @@ require_once __DIR__ . './class/Member.php';
 $member = new Member();
 $memberResult = $member->getMemberById($_SESSION["userId"]);
 $displayName = ucwords($memberResult[0]["first_name"]);
+$conversionRate = $member->get_eth_prices();
 
 echo '<!DOCTYPE html>
 <html lang="en">
@@ -59,7 +60,8 @@ $items = $member->getListedUserItems($_SESSION["userId"]);
             echo '<div class="card w-50">
                         <div class="card-body">
                             <h5 class="card-title">' . $item["name"] . '</h5>
-                            <p class="card-text">Current Market Price : ' .$item["current_mp"]. '</p>
+                            <p class="card-text">Market Price : $ ' .$item["current_mp"]. '</p>
+                            <p class="card-text">Market Price : Ξ ' .number_format($item["current_mp"]/$conversionRate,  2, ".", ""). '</p>
                             <a href="#" class="btn btn-primary">List</a>
                         </div>
                     </div>

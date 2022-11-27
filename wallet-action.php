@@ -3,7 +3,7 @@ namespace NFT;
 
 use \NFT\Member;
 require_once (__DIR__ . "/class/Member.php");
-    $member = new Member();
+$member = new Member();
 if (! empty($_POST["submitbtn"])) {
     session_start();
     $userid = $_SESSION["userId"];
@@ -19,9 +19,6 @@ if (! empty($_POST["submitbtn"])) {
         $payment_id = $member->ethAdd($userid, $amount, $account);
         $updated_rows = $member->updateEth($userid, $amount);
     }
-    
-    
-
 
     header("Location: ./wallet.php");
     exit();

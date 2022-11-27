@@ -16,7 +16,7 @@ class Member
         $this->ds = new DataSource();
     }
 
-    function getMemberById($memberId)
+    public function getMemberById($memberId)
     {
         $query = "SELECT * FROM traders WHERE client_id = ?";
         $paramType = "i";
@@ -158,6 +158,17 @@ class Member
         else{
             return null;
         }
+    }
+
+    public function addNFT($clientid, $name, $sca, $price){
+        $query = "INSERT INTO nft_items (smart_contract_address,name,current_mp,owner_id) VALUES (?,?,?,?)";
+        $paramType = "ssdi";
+        $paramArray = array($sca, $name, $price, $clientid);
+        $memberResult = $this->ds->insert($query, $paramType, $paramArray);
+        if(!empty($memberResult)) {
+            return true;
+        }
+        return false;
     }
 
     public function get_eth_prices(){

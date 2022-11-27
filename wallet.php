@@ -77,8 +77,8 @@ echo '<div class="container mt-4">
                         <h5 class="card-title">Add Currency</h5>
                             <form action="wallet-action.php" method="POST">
                                 <div class="dollars">
-                                    <input type="radio" class="Positive" name="currencytype" value="selectdollar" onClick="getResults(this)" checked>Dollar $&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="radio" class="Show" name="currencytype" value="selecteth" onclick="getResults(this)">Ethereum Ξ
+                                    <input type="radio" class="Positive" name="currencytype" value="selectdollar" onClick="getResults(this)" checked> Dollar $&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" class="Show" name="currencytype" value="selecteth" onclick="getResults(this)"> Ethereum Ξ
                                 </div><br>
 
                                 <div class="dollars"><label> Add Amount bellow </label>

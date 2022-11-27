@@ -154,17 +154,4 @@ class DataSource
      * @param array $paramArray
      * @return array
      */
-    public function numRows($query, $paramType="", $paramArray=array())
-    {
-        $stmt = $this->conn->prepare($query);
-        
-        if(!empty($paramType) && !empty($paramArray)) {
-            $this->bindQueryParams($stmt, $paramType, $paramArray);
-        }
-        
-        $stmt->execute();
-        $stmt->store_result();
-        $recordCount = $stmt->num_rows;
-        return $recordCount;
-    }
 }
