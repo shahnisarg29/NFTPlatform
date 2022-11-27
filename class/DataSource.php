@@ -1,5 +1,5 @@
 <?php
-namespace Phppot;
+namespace NFT;
 
 /**
  * Generic datasource class for handling DB operations.
@@ -101,6 +101,17 @@ class DataSource
         return $insertId;
     }
     
+
+    public function update($query, $paramType, $paramArray)
+    {
+        print $query;
+        $stmt = $this->conn->prepare($query);
+        $this->bindQueryParams($stmt, $paramType, $paramArray);
+        $stmt->execute();
+        return $stmt->affected_rows;
+    }
+
+
     /**
      * To execute query
      * @param string $query

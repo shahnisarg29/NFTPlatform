@@ -4,19 +4,21 @@
 <title>User Signup</title>
 
 <!-- CSS only -->
-<link href="./css/form.css" rel="stylesheet" type="text/css" />
+<link href="./view/css/form.css" rel="stylesheet" type="text/css" />
 <style>
 body {
 	font-family: Arial;
 	color: #333;
 	font-size: 0.95em;
-	background-image: url("./images/bg.jpeg");
+	background-image: url("./view/images/bg.jpeg");
+	background-repeat: no-repeat;
+	background-size: 200%;
 }
 </style>
 </head>
 <body>
 	<div>
-		<form action="../signup-action.php" method="post" id="frmSignup"
+		<form action="signup-action.php" method="post" id="frmSignup"
 			onSubmit="return validate();">
 			<div class="login-form-container">
 
@@ -154,7 +156,7 @@ body {
 				</div> -->
 				<div class="login-row form-nav-row">
 					<p>Already an existing user?</p>
-					<a href="../index.php" class="btn form-link">Login Now</a>
+					<a href="index.php" class="btn form-link">Login Now</a>
 				</div>
 			</div>
 		</form>

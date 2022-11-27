@@ -48,9 +48,10 @@ body {
 						<input name="password" id="password" type="password"
 							class="demo-input-box" placeholder="Enter Password">
 					</div>
-					<br>
-					<div class>
-						<input name="manager" id="manager" type="checkbox">
+				</div>
+				<div class="field-column">
+					<div>
+						<input name="manager" id="manager" type="checkbox" value="on">
 						<label for="manager">Manager</label>
 					</div>
 				</div>
@@ -64,7 +65,7 @@ body {
 				</div> -->
 				<div class="login-row form-nav-row">
 					<p>New user?</p>
-					<a href="./view/signup.php" class="btn form-link">Signup Now</a>
+					<a href="./signup.php" class="btn form-link">Signup Now</a>
 				</div>
 			</div>
 		</form>

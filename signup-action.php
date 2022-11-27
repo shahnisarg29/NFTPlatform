@@ -1,7 +1,7 @@
 <?php
-namespace Phppot;
+namespace NFT;
 
-use \Phppot\Member;
+use \NFT\Member;
 if (! empty($_POST["signup"])) {
     session_start();
     $firstname = filter_var($_POST["first_name"], FILTER_SANITIZE_STRING);
@@ -25,3 +25,5 @@ if (! empty($_POST["signup"])) {
     header("Location: ./index.php");
     exit();
 }
+
+?>
