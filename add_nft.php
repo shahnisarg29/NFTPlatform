@@ -20,6 +20,37 @@ namespace NFT;
             background-image: url("./view/images/bg.jpeg");
         }
     </style>
+    <script>
+        window.addEventListener('load', function(){
+            var xhr = null;
+            getXmlHttpRequestObject = function(){
+                if(!xhr){               
+            // Create a new XMLHttpRequest object 
+                    xhr = new XMLHttpRequest();
+                }
+                return xhr;
+            };
+            updateLiveData = function(){
+                var now = new Date();
+                var url = 'ethAPI.php';
+                xhr = getXmlHttpRequestObject();
+                xhr.onreadystatechange = evenHandler;
+                xhr.open("GET", url, true);
+                xhr.send(null);
+            };
+
+            updateLiveData();
+
+            function evenHandler(){
+                if(xhr.readyState == 4 && xhr.status == 200){
+                    dataDiv = document.getElementById('rate');
+                    val = JSON.parse(xhr.responseText);
+                    dataDiv.value = "Ξ1 = $".concat(val.data);
+                    setTimeout(updateLiveData(), 5000);
+                }
+            }
+        });
+    </script>
 </head>
 
 <body>
@@ -72,6 +103,15 @@ namespace NFT;
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="currency" id="inlineRadio2" value="usd">
                         <label class="form-check-label" for="inlineRadio2">Dollar $</label>
+                    </div>
+                </div>
+
+                <div class="field-column">
+                    <div>
+                        <label for="rate">Live Rate</label><span id="nft_info" class="error-info"></span>
+                    </div>
+                    <div>
+                        <input name="rate" id="rate" type="text" class="form-control" value="" readonly>
                     </div>
                 </div>
 

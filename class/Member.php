@@ -54,7 +54,7 @@ class Member
     }
 
     public function getUnlistedUserItems($clientid){
-        $query = "SELECT name, current_mp FROM nft_items WHERE owner_id = ? AND list = 0";
+        $query = "SELECT token_id,name, current_mp FROM nft_items WHERE owner_id = ? AND list = 0";
         $paramType = "i";
         $paramArray = array($clientid);
         $memberResult = $this->ds->select($query, $paramType, $paramArray);
@@ -140,6 +140,18 @@ class Member
         $query = "UPDATE traders SET eth_count = eth_count + ? where client_id = ?";
         $paramType = "ii";
         $paramArray = array($amount, $userid);
+        $memberResult = $this->ds->update($query, $paramType, $paramArray);
+        if($memberResult > 0) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public function listNFT($token_id, $price){
+        $query = "UPDATE nft_items SET list = 1, current_mp = ? WHERE token_id = ?";
+        $paramType = "di";
+        $paramArray = array($price, $token_id);
         $memberResult = $this->ds->update($query, $paramType, $paramArray);
         if($memberResult > 0) {
             return true;

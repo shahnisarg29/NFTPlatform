@@ -62,7 +62,7 @@ $items = $member->getUnlistedUserItems($_SESSION["userId"]);
                             <h5 class="card-title">' . $item["name"] . '</h5>
                             <p class="card-text">Market Price : $ ' .$item["current_mp"]. '</p>
                             <p class="card-text">Market Price : Ξ ' .number_format($item["current_mp"]/$conversionRate,  2, ".", ""). '</p>
-                            <a href="#" class="btn btn-primary">List</a>
+                            <a href="list-form.php?token='.$item["token_id"].'" class="btn btn-primary">List</a>
                         </div>
                     </div>
                     <br>';
