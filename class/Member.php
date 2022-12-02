@@ -54,19 +54,7 @@ class Member
     }
 
     public function getUnlistedUserItems($clientid){
-        $query = "SELECT token_id,name, current_mp FROM nft_items WHERE owner_id = ? AND list = 0";
-        $paramType = "i";
-        $paramArray = array($clientid);
-        $memberResult = $this->ds->select($query, $paramType, $paramArray);
-        if(!empty($memberResult)){
-            return $memberResult;
-        }
-        else{
-            return null;
-        }
-    }
-    public function getListedUserItems($clientid){
-        $query = "SELECT name, current_mp FROM nft_items WHERE owner_id = ? AND list = 1";
+        $query = "SELECT token_id,name, current_mp, list_in FROM nft_items WHERE owner_id = ? AND list = 0";
         $paramType = "i";
         $paramArray = array($clientid);
         $memberResult = $this->ds->select($query, $paramType, $paramArray);
@@ -78,9 +66,37 @@ class Member
         }
     }
 
-    public function listedItems(){
-        $query = "SELECT name, current_mp FROM nft_items WHERE list = 1";
-        $memberResult = $this->ds->select($query);
+    public function getNFT($token_id){
+        $query = "SELECT * FROM nft_items WHERE token_id = ?";
+        $paramType = "i";
+        $paramArray = array($token_id);
+        $memberResult = $this->ds->select($query, $paramType, $paramArray);
+        if(!empty($memberResult)){
+            return $memberResult;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function getListedUserItems($clientid){
+        $query = "SELECT name, current_mp, list_in FROM nft_items WHERE owner_id = ? AND list = 1";
+        $paramType = "i";
+        $paramArray = array($clientid);
+        $memberResult = $this->ds->select($query, $paramType, $paramArray);
+        if(!empty($memberResult)){
+            return $memberResult;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function listedItems($clientid){
+        $query = "SELECT token_id, name, current_mp, list_in FROM nft_items WHERE list = 1 AND owner_id <> ?";
+        $paramType = "i";
+        $paramArray = array($clientid);
+        $memberResult = $this->ds->select($query, $paramType, $paramArray);
         if(!empty($memberResult)){
             return $memberResult;
         }
@@ -107,6 +123,17 @@ class Member
         $query = "INSERT INTO payment_transaction (client_id,payment_type,amount,payment_address,status,eth_count) VALUES (?,'USD',?,?,'success',NULL)";
         $paramType = "iis";
         $paramArray = array($userid, $amount, $payment_add);
+        $memberResult = $this->ds->insert($query, $paramType, $paramArray);
+        if(!empty($memberResult)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function nft_transaction($commission, $commissionType, $nft_address, $token_id, $sellerid, $buyerid, $amount, $commission_payment_in){
+        $query = "INSERT INTO nft_transaction (commission,commission_type,nft_address,nft_token_id, seller_eth_address,buyer_eth_address, amount, commission_payment_in) VALUES (?,?,?,?,?,?,?,?)";
+        $paramType = "dssissds";
+        $paramArray = array($commission, $commissionType, $nft_address, $token_id, $sellerid, $buyerid, $amount, $commission_payment_in);
         $memberResult = $this->ds->insert($query, $paramType, $paramArray);
         if(!empty($memberResult)) {
             return true;
@@ -148,10 +175,10 @@ class Member
     }
 
 
-    public function listNFT($token_id, $price){
-        $query = "UPDATE nft_items SET list = 1, current_mp = ? WHERE token_id = ?";
-        $paramType = "di";
-        $paramArray = array($price, $token_id);
+    public function listNFT($token_id, $price, $listin){
+        $query = "UPDATE nft_items SET list = 1, current_mp = ?, list_in = ? WHERE token_id = ?";
+        $paramType = "dsi";
+        $paramArray = array($price, $listin, $token_id);
         $memberResult = $this->ds->update($query, $paramType, $paramArray);
         if($memberResult > 0) {
             return true;
@@ -172,16 +199,51 @@ class Member
         }
     }
 
-    public function addNFT($clientid, $name, $sca, $price){
-        $query = "INSERT INTO nft_items (smart_contract_address,name,current_mp,owner_id) VALUES (?,?,?,?)";
-        $paramType = "ssdi";
-        $paramArray = array($sca, $name, $price, $clientid);
+    public function addNFT($clientid, $name, $sca, $price, $listin){
+        $query = "INSERT INTO nft_items (smart_contract_address,name,current_mp,owner_id, list_in) VALUES (?,?,?,?,?)";
+        $paramType = "ssdis";
+        $paramArray = array($sca, $name, $price, $clientid, $listin);
         $memberResult = $this->ds->insert($query, $paramType, $paramArray);
         if(!empty($memberResult)) {
             return true;
         }
         return false;
     }
+
+
+    public function updateNFTOwner($token_id, $buyer){
+        $query = "UPDATE nft_items SET list = 0, owner_id = ? WHERE token_id = ?";
+        $paramType = "ii";
+        $paramArray = array($buyer, $token_id);
+        $memberResult = $this->ds->update($query, $paramType, $paramArray);
+        if($memberResult > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function updateTraderBalance($traderid, $amount, $currencytype){
+        if($currencytype == "eth"){
+            $this->updateEth($traderid, $amount);
+        }
+        else{
+            $this->updateDollar($traderid, $amount);
+        }
+    }
+
+    public function userNFTTransactionHistory($eth_address){
+        $query = "SELECT * FROM nft_transaction WHERE seller_eth_address = ? OR buyer_eth_address = ?";
+        $paramType = "ss";
+        $paramArray = array($eth_address, $eth_address);
+        $memberResult = $this->ds->select($query, $paramType, $paramArray);
+        if(!empty($memberResult)){
+            return $memberResult;
+        }
+        else{
+            return null;
+        }
+    }
+
 
     public function get_eth_prices(){
         $request = 'https://api.coinbase.com/v2/prices/ETH-USD/buy';

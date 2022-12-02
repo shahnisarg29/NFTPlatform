@@ -50,7 +50,7 @@ require_once('./header.php');
 echo '<div class="container-fluid" style="padding-top: 50px;">
 <div class="card">
     <div class="card-header text-center " style="font-family: Sans-Serif; text-transform:uppercase; font-size:1.5rem">
-        LISTED NFTs
+        LISTED NFTs 
     </div>
     <br>';
 
@@ -62,7 +62,6 @@ $items = $member->getListedUserItems($_SESSION["userId"]);
                             <h5 class="card-title">' . $item["name"] . '</h5>
                             <p class="card-text">Market Price : $ ' .$item["current_mp"]. '</p>
                             <p class="card-text">Market Price : Ξ ' .number_format($item["current_mp"]/$conversionRate,  2, ".", ""). '</p>
-                            <a href="#" class="btn btn-primary">List</a>
                         </div>
                     </div>
                     <br>';

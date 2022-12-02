@@ -10,11 +10,11 @@ if (! empty($_POST["list"])) {
     $currencytype = filter_var($_POST["currency"], FILTER_SANITIZE_STRING);
     $price = filter_var($_POST["price"], FILTER_SANITIZE_STRING);
     if($currencytype == "usd"){
-        $member->listNFT($token_id, $price);
+        $member->listNFT($token_id, $price, $currencytype);
     }
     else{
         $price = $price * $member->get_eth_prices();
-        $member->listNFT($token_id, $price);
+        $member->listNFT($token_id, $price, $currencytype);
     }
 
     header("Location: ./user_listednfts.php");

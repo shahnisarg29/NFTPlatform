@@ -13,11 +13,11 @@ if(!empty($_POST["add"])){
     $currencytype = filter_var($_POST["currency"], FILTER_SANITIZE_STRING);
     if($currencytype == "eth"){
         $price = (filter_var($_POST["price"], FILTER_SANITIZE_STRING)) * $member->get_eth_prices();
-        $member->addNFT($clientid, $name, $sca, $price);
+        $member->addNFT($clientid, $name, $sca, $price, $currencytype);
     }
     else{
         $price = filter_var($_POST["price"], FILTER_SANITIZE_STRING);
-        $member->addNFT($clientid, $name, $sca, $price);
+        $member->addNFT($clientid, $name, $sca, $price, $currencytype);
     }
 
     header("Location: ./user_unlistednfts.php");

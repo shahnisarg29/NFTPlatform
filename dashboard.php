@@ -7,6 +7,8 @@ require_once __DIR__ . './class/Member.php';
 $member = new Member();
 $memberResult = $member->getMemberById($_SESSION["userId"]);
 $displayName = ucwords($memberResult[0]["first_name"]);
+$balance = $memberResult[0]["balance"];
+$eth_count = $memberResult[0]["eth_count"];
 $conversionRate = $member->get_eth_prices();
 
 echo '<!DOCTYPE html>
@@ -51,7 +53,7 @@ echo '<div class="container-fluid" style="padding-top: 50px;">
         Marketplace
     </div>
     <br>';
-$items = $member->listedItems();
+$items = $member->listedItems($_SESSION["userId"]);
 if($items != null) {
     foreach($items as $item){
         echo '<div class="card w-50">
@@ -59,7 +61,7 @@ if($items != null) {
                         <h5 class="card-title">' . $item["name"] . '</h5>
                         <p class="card-text">Market Price : $ ' .$item["current_mp"]. '</p>
                         <p class="card-text">Market Price : Ξ ' .number_format($item["current_mp"]/$conversionRate,  2, ".", ""). '</p>
-                        <a href="#" class="btn btn-primary">Buy</a>
+                        <a href="buy_nft.php?token_id='.$item["token_id"].'&balance='.$balance.'&ethereum_count='.$eth_count.'" class="btn btn-primary">Buy</a>
                     </div>
                 </div>
                 <br>';
@@ -73,4 +75,5 @@ echo '</div>
     </div>
 </body>
 </html>';
+
 ?>
