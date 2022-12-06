@@ -86,7 +86,7 @@ echo '<div class="container-fluid" style="padding-top: 50px;">
                                                     <td>'.$t["payment_type"].'</td>
                                                     <td><span style="width:100px;"><span class="badge-text badge-text-small '.$statusColor.'">'.ucwords($t["status"]).'</span></span></td>
                                                     <td class="td-actions">
-                                                            <a href="cancel_transaction.php?trans_id='. $t["payment_id"] .'"><i class="la la-close delete"></i></a>
+                                                        <a href="cancel_transaction.php?trans_id='. $t["payment_id"] .'"><i class="la la-close delete"></i></a>
                                                     </td>
                                                 </tr>';
                                                 }

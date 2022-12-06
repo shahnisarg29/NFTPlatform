@@ -102,7 +102,7 @@ class DataSource
     }
     
 
-    public function update($query, $paramType, $paramArray)
+    public function update($query,$paramType="", $paramArray=array())
     {
         print $query;
         $stmt = $this->conn->prepare($query);

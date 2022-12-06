@@ -26,7 +26,7 @@ if(isset($_GET["token_id"])){
 
     if($list_in == "usd"){
         if($balance < $current_mp){
-            // Cannot Buy
+            echo "<script>alert('You do not have sufficient balance')</script>";
         }
         else{
             // Get Old Owner Id, trader gold or silver, calculate commission 
@@ -57,7 +57,7 @@ if(isset($_GET["token_id"])){
     }
     else{
         if($eth_count < $current_mp){
-            // Cannot Buy;
+            echo "<script>alert('You do not have sufficient balance')</script>";
         }
         else{
             // Get Old Owner Id, trader gold or silver, calculate commission 

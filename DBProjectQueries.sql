@@ -136,11 +136,11 @@ update traders set balance=balance+?	where
 
 7. Cancel payment 
 
-select 'Yes' from payment_transaction
+select * from payment_transaction
 where status='success' 
 and transaction_date >= current_timestamp() - interval 15 minute 
 and transaction_date <= current_timestamp()
-and client_id= $clientidfromsession;
+and payment_id= $clientidfromsession;
 
 ----For Payment Transaction cancellation check on button click
 

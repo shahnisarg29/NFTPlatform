@@ -25,6 +25,16 @@ class Member
         
         return $memberResult;
     }
+
+    public function getMemberByEth($eth)
+    {
+        $query = "SELECT DISTINCT * FROM traders WHERE ethereum_address = ?";
+        $paramType = "s";
+        $paramArray = array($eth);
+        $memberResult = $this->ds->select($query, $paramType, $paramArray);
+        
+        return $memberResult;
+    }
     
     public function processLogin($username, $password, $manager) {
         $query = "SELECT * FROM traders WHERE email = ? AND user_role = ?";
@@ -70,6 +80,19 @@ class Member
         $query = "SELECT * FROM nft_items WHERE token_id = ?";
         $paramType = "i";
         $paramArray = array($token_id);
+        $memberResult = $this->ds->select($query, $paramType, $paramArray);
+        if(!empty($memberResult)){
+            return $memberResult;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function getNFTTransaction($transaction_id){
+        $query = "SELECT * FROM nft_transaction WHERE transaction_id = ?";
+        $paramType = "i";
+        $paramArray = array($transaction_id);
         $memberResult = $this->ds->select($query, $paramType, $paramArray);
         if(!empty($memberResult)){
             return $memberResult;
@@ -163,6 +186,28 @@ class Member
         return false;
     }
 
+    public function cancelPaymentUpdate($payment_id){
+        $query = "UPDATE payment_transaction SET status = 'cancelled' WHERE payment_id = ?";
+        $paramType = "i";
+        $paramArray = array($payment_id);
+        $memberResult = $this->ds->update($query, $paramType, $paramArray);
+        if($memberResult > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function cancelTransactionUpdate($transaction_id){
+        $query = "UPDATE nft_transaction SET transaction_status = 'cancelled' WHERE transaction_id = ?";
+        $paramType = "i";
+        $paramArray = array($transaction_id);
+        $memberResult = $this->ds->update($query, $paramType, $paramArray);
+        if($memberResult > 0) {
+            return true;
+        }
+        return false;
+    }
+
     public function updateEth($userid, $amount){
         $query = "UPDATE traders SET eth_count = eth_count + ? where client_id = ?";
         $paramType = "ii";
@@ -173,7 +218,6 @@ class Member
         }
         return false;
     }
-
 
     public function listNFT($token_id, $price, $listin){
         $query = "UPDATE nft_items SET list = 1, current_mp = ?, list_in = ? WHERE token_id = ?";
@@ -243,6 +287,46 @@ class Member
             return null;
         }
     }
+
+    public function getPayment($payment_id){
+        $query = "SELECT * FROM payment_transaction WHERE payment_id = ?";
+        $paramType = "i";
+        $paramArray = array($payment_id);
+        $memberResult = $this->ds->select($query, $paramType, $paramArray);
+        if(!empty($memberResult)){
+            return $memberResult;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function check15CancelPayment($payment_id){
+        $query = "SELECT * FROM payment_transaction WHERE payment_id= ? and status='success' and TIMESTAMPDIFF(minute, current_timestamp(), transaction_date) < 15";
+        $paramType = "i";
+        $paramArray = array($payment_id);
+        $memberResult = $this->ds->select($query, $paramType, $paramArray);
+        if(!empty($memberResult)){
+            return $memberResult;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function check15CancelTransaction($transaction_id){
+        $query = "SELECT * FROM nft_transaction WHERE transaction_id= ? and transaction_status='success' and TIMESTAMPDIFF(minute, current_timestamp(), transaction_date) < 15";
+        $paramType = "i";
+        $paramArray = array($transaction_id);
+        $memberResult = $this->ds->select($query, $paramType, $paramArray);
+        if(!empty($memberResult)){
+            return $memberResult;
+        }
+        else{
+            return null;
+        }
+    }
+
 
 
     public function get_eth_prices(){
