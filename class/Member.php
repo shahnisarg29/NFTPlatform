@@ -45,6 +45,9 @@ class Member
             $hashedPassword = $memberResult[0]["password"];
             if (password_verify($password, $hashedPassword)) {
                 $_SESSION["userId"] = $memberResult[0]["client_id"];
+                if($manager == 1){
+                    $_SESSION["manager"] = $memberResult[0]["user_role"];
+                }
                 return true;
             }
         }
@@ -94,6 +97,63 @@ class Member
         $paramType = "i";
         $paramArray = array($transaction_id);
         $memberResult = $this->ds->select($query, $paramType, $paramArray);
+        if(!empty($memberResult)){
+            return $memberResult;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function getAllTransactions(){
+        $query = "SELECT * FROM nft_transaction";
+        $memberResult = $this->ds->select($query);
+        if(!empty($memberResult)){
+            return $memberResult;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function getDaily(){
+        $query = "SELECT * FROM nft_transaction WHERE DATEDIFF(current_timestamp(), transaction_date) <= 1";
+        $memberResult = $this->ds->select($query);
+        if(!empty($memberResult)){
+            return $memberResult;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function getMonthly(){
+        $query = "SELECT * FROM nft_transaction WHERE DATEDIFF(current_timestamp(), transaction_date) <= 30";
+        $memberResult = $this->ds->select($query);
+        if(!empty($memberResult)){
+            return $memberResult;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function getWeekly(){
+        $query = "SELECT * FROM nft_transaction WHERE DATEDIFF(current_timestamp(), transaction_date) <= 7";
+        $memberResult = $this->ds->select($query);
+        if(!empty($memberResult)){
+            return $memberResult;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function getDateRange($from, $to){
+        $query = "SELECT * FROM nft_transaction WHERE transaction_date >= ? AND transaction_date <= ?";
+        $paramType = "ss";
+        $paramArray = array($from, $to);
+        $memberResult = $this->ds->select($query);
         if(!empty($memberResult)){
             return $memberResult;
         }
